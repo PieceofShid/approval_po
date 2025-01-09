@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<odoo>
+    <record id="ics_approval_po_reject" model="ir.ui.view">
+        <field name="name">ICS Approval Po Reject</field>
+        <field name="model">ics.approval.po.reject</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Reject Purchase Order">
+                <group>
+                    <field name="reasons"/>
+                </group>
+                <footer>
+                    <button
+                        name="reject_purchase_order"
+                        string="Reject"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancel" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="ics_approval_po_reject_action" model="ir.actions.act_window">
+        <field name="name">Reject</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ics.approval.po.reject</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ics_approval_po_reject"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lead_time,access_lead_time,model_lead_time,base.group_system,1,1,1,1
+access_ics_approval_po_config,access_ics_approval_po_config,model_ics_approval_po_config,base.group_system,1,1,1,1
+access_ics_approval_po_config_read,access_ics_approval_po_config_read,model_ics_approval_po_config,purchase.group_purchase_user,1,0,0,0
+access_ics_approval_log,access_ics_approval_log,model_ics_approval_po_log,purchase.group_purchase_user,1,1,1,1
+access_ics_approval_po_rule,access_ics_approval_po_rule,model_ics_approval_po_rule,purchase.group_purchase_user,1,1,1,1
+access_ics_approval_po_wizard,access_ics_approval_po_wizard,model_ics_approval_po_wizard,purchase.group_purchase_user,1,1,1,1

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="ics_approval_po_extend_view" model="ir.ui.view">
+            <field name="name">ics.approval.po.extend.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_rfq_send'][1]" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'sent'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_rfq_send'][2]" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'sent'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation'][1]" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'sent'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation'][2]" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'sent'</attribute>
+                </xpath>
+                <xpath expr="//button[@id='bid_confirm']" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'sent'</attribute>
+                </xpath>
+                <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                    <attribute name="invisible">is_approval_active or state != 'draft'</attribute>
+                </xpath>
+                <button name="button_confirm" position="after">
+                    <button
+                        name="%(ics_approval_po_wizard_action)d"
+                        string="Approve"
+                        type="action"
+                        class="oe_highlight"
+                        invisible="state in ['purchase', 'done', 'cancel'] or is_approval_active == False"
+                    />
+                </button>
+                <field name="partner_id" position="attributes">
+                    <attribute name="readonly">state in [
+                        'pending_release_1',
+                        'pending_release_2',
+                        'pending_release_3',
+                        'waiting_release_1',
+                        'waiting_release_2',
+                        'waiting_release_3',
+                        'waiting_complete',
+                        'done',
+                        'cancel',
+                        'purchase'
+                        ]</attribute>
+                </field>
+                <field name="currency_id" position="attributes">
+                    <attribute name="readonly">state in [
+                        'pending_release_1',
+                        'pending_release_2',
+                        'pending_release_3',
+                        'waiting_release_1',
+                        'waiting_release_2',
+                        'waiting_release_3',
+                        'waiting_complete',
+                        'done',
+                        'cancel',
+                        'purchase'
+                        ]</attribute>
+                </field>
+                <field name="product_id" position="attributes">
+                    <attribute name="readonly">state in [
+                        'pending_release_1',
+                        'pending_release_2',
+                        'pending_release_3',
+                        'waiting_release_1',
+                        'waiting_release_2',
+                        'waiting_release_3',
+                        'waiting_complete',
+                        'done',
+                        'cancel',
+                        'purchase'
+                        ]</attribute>
+                </field>
+                <field name="lead_time" position="attributes">
+                    <attribute name="readonly">state in [
+                        'pending_release_1',
+                        'pending_release_2',
+                        'pending_release_3',
+                        'waiting_release_1',
+                        'waiting_release_2',
+                        'waiting_release_3',
+                        'waiting_complete',
+                        'done',
+                        'cancel',
+                        'purchase'
+                        ]</attribute>
+                </field>
+                <field name="date_planned" position="attributes">
+                    <attribute name="readonly">state in ['done',]</attribute>
+                </field>
+                <page name="purchase_delivery_invoice" position="after">
+                    <page name="approval_log" string="Approval Log">
+                        <field name="approval_log" widget="section_and_note_one2many" mode="list" readonly="True">
+                            <list string="Approval Log">
+                                <field name="approver_id"/>
+                                <field name="from_action"/>
+                                <field name="to_action"/>
+                                <field name="datetime"/>
+                            </list>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

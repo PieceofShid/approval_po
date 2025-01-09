@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="ics_approval_po_config_view" model="ir.ui.view">
+            <field name="name">ics.approval.po.config.view</field>
+            <field name="model">ics.approval.po.config</field>
+            <field name="arch" type="xml">
+                <form string="Approval Purchase Order Config" create="False" delete="False">
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="company_id"
+                                groups="base.group_multi_company"
+                                widget="selection"
+                                readonly="True"
+                                class="oe_inline"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <notebook>
+                            <page string="Approval Rule">
+                                <field name="rule_id" widget="section_and_note_one2many" mode="list">
+                                    <list string="Approval Rule" editable="bottom">
+                                        <field name="name" readonly="1" force_save="1"/>
+                                        <field name="state"/>
+                                        <field name="action"/>
+                                        <field name="users" widget="many2many_tags" options="{'no_create': True}"/>
+                                        <field name="minimal_amount"/>
+                                        <field name="maximal_amount"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ics_approva_po_config_action" model="ir.actions.act_window">
+            <field name="name">Approval Config</field>
+            <field name="res_model">ics.approval.po.config</field>
+            <field name="res_id" ref="ics_approval_config_01"/>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="approval_po_config" name="Approval Config" sequence="60" parent="purchase.menu_purchase_config" action="ics_approva_po_config_action"/>
+    </data>
+</odoo>

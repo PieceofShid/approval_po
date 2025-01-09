@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="approval_mail_template" model="mail.template">
+            <field name="name">Approval Request</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Request Approval Purchase Order: {{ ctx.get('status') }} Ref #{{ object.name }}</field>
+            <field name="description">Email template for approval request</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello,
+                        
+                        <br/><br/>
+                        Purchase order <span style="font-weight:bold;" t-out="object.name or ''">P00015</span>
+                        amounting in <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00</span>
+                        to <t t-out="object.partner_id.name or ''">Brandon Freeman</t>
+                        <t t-if="object.partner_id.parent_id">
+                            (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>)
+                        </t>
+
+                        <br/><br/>
+                        Need your <span style="font-weight:bold;">Approval</span>
+                        
+                        <br/><br/>
+
+                        <a t-attf-href="/odoo/purchase/{{ object.id }}" target="_blank" class="btn btn-primary">View Request</a> 
+                    </p>
+                </div>
+            </field>
+            <field name="report_template_ids" eval="[(4, ref('purchase.action_report_purchase_order'))]"/>
+        </record>
+    </data>
+</odoo>

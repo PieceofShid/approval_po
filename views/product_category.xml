@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="product_category_lead_time_view" model="ir.ui.view">
+            <field name="name">product.category.lead.time.view</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <group name="first" position="after">
+                    <group name="lead_time">
+                        <!-- <group string="Account Properties" groups="account.group_account_readonly"> -->
+                            <field name="lead_time" class="oe_inline"/>
+                        <!-- </group> -->
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>
