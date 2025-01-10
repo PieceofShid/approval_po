@@ -55,7 +55,7 @@ class ApprovalWizard(models.TransientModel):
         }
 
         template = self.env.ref('ics_purchase_order.approval_mail_template')
-        template.write({'email_to': recipient})
+        template.sudo().write({'email_to': recipient})
         template.with_context(ctx).send_mail(self.purchase.id, force_send=True)
 
         self._write_approval_log()

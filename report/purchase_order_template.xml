@@ -64,27 +64,34 @@
                             <div class="col">
                                 <table class="table-borderless w-100">
                                     <tr>
-                                        <th style="text-align:left; width: 120px">No</th>
+                                        <th class="fw-semibold" style="text-align:left; width: 120px">No</th>
                                         <td style="width: 10px">:</td>
                                         <td><span t-field="doc.name"/></td>
                                     </tr>
                                     <tr>
-                                        <th style="text-align:left">Date</th>
+                                        <th class="fw-semibold" style="text-align:left">Date</th>
                                         <td>:</td>
                                         <td><span t-field="doc.date_order" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></td>
                                     </tr>
                                 </table>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
                                 <span class="fw-semibold">Business Partner</span>
                                 <div t-field="doc.partner_id" t-options="{'widget': 'contact', 'fields': ['name', 'address'], 'no_marker': True}"/>
                             </div>
                             <div class="col">
                                 <span class="fw-semibold">Deliver To</span>
                                 <div t-field="doc.company_id.partner_id" t-options="{'widget': 'contact', 'fields': ['name', 'address'], 'no_marker': True}"/>
+                                <table class="table-borderless w-100">
+                                    <tr>
+                                        <th class="fw-semibold" style="text-align:left; width: 120px">Payment Terms</th>
+                                        <td style="width: 10px">:</td>
+                                        <td><span t-field="doc.payment_term_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="fw-semibold" style="text-align:left">Schedule Date</th>
+                                        <td>:</td>
+                                        <td><span t-field="doc.date_planned" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         
@@ -92,9 +99,9 @@
                             <thead style="display: table-row-group">
                                 <tr>
                                     <th name="th_no" class="text-center fw-bold" style="border-right: 1px solid #fff;">No.</th>
-                                    <th name="th_reference" class="text-center fw-bold" style="border-right: 1px solid #fff;">Reference</th>
                                     <th name="th_product" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff;">Product</th>
                                     <th name="th_description" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Description</th>
+                                    <th name="th_sch_date" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Schedule Date</th>
                                     <th name="th_qty" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Qty</th>
                                     <th name="th_uom" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff;">UoM</th>
                                     <th name="th_price" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Price</th>
@@ -109,14 +116,19 @@
                                     <td name="td_no" class="text-center">
                                         <span t-esc="number"/>
                                     </td>
-                                    <td name="td_reference" class="text-center">
-                                        <span t-field="line_id.product_id.default_code"/>
-                                    </td>
                                     <td name="td_product" class="text-left">
                                         <span t-field="line_id.product_id.name"/>
                                     </td>
                                     <td name="td_description" class="text-left">
-                                        <span t-field="line_id.name"/>
+                                        <t t-if="line_id.specifications">
+                                            <span t-field="line_id.specifications"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="line_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td name="td_sch_date" class="text-center">
+                                        <span t-field="line_id.date_planned" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/>
                                     </td>
                                     <td name="td_qty" class="text-center">
                                         <span t-field="line_id.product_qty"/>
@@ -157,35 +169,57 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <t t-set="approve_logs" t-value="doc._get_approval_log()"/>
+                        <t t-set="complete_logs" t-value="doc._get_approval_complete()"/>
                         
                          <div class="bot-sect">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p>
-                                        <span class="fw-semibold">Payment Terms</span> <br/>
-                                        <span t-field="doc.payment_term_id"/>
-                                    </p>
+                            <div class="row mb-5">
+                                <div class="col">
                                     <p>
                                         <span class="fw-semibold">Delivery Note</span> <br/>
                                         <span t-field="doc.notes"/>
                                     </p>
                                 </div>
-                                <div class="col-8 signature">
+                            </div>
+                            <div class="row">
+                                <div class="col signature">
                                     <table class="table table-borderless">
                                         <tr>
                                             <td style="width: 150px; text-align: center; font-weight: bold">Prepared By</td>
-                                            <td style="width: 150px; text-align: center; font-weight: bold">Approval By</td>
+                                            <t t-foreach="approve_logs" t-as="log">
+                                                <td style="width: 150px; text-align: center; font-weight: bold">Checked By</td>
+                                            </t>
+                                            <td style="width: 150px; text-align: center; font-weight: bold">Approved By</td>
                                         </tr>
                                         <tr>
-                                            <td style="height: 70px"/>
-                                            <td style="height: 70px"/>
+                                            <td t-if="doc.create_uid.signature_image" style="text-align: center">
+                                                <img t-att-src="image_data_uri(doc.create_uid.signature_image)" style="max-width: 200px; max-height: 100px;" alt="TTD"/>
+                                            </td>
+                                            <td t-else="" style="height: 70px"/>
+                                            <t t-foreach="approve_logs" t-as="log">
+                                                <td t-if="log['signature']" style="text-align: center">
+                                                    <img t-att-src="image_data_uri(log['signature'])" style="max-width: 200px; max-height: 100px;" alt="TTD"/>
+                                                </td>
+                                                <td t-else="" style="height: 70px"/>
+                                            </t>
+                                            <td t-if="complete_logs['signature']" style="text-align: center">
+                                                <img t-att-src="image_data_uri(complete_logs['signature'])" style="max-width: 200px; max-height: 100px;" alt="TTD"/>
+                                            </td>
+                                            <td t-else="" style="height: 70px"/>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center">
                                                 <span t-field="doc.create_uid"/>
                                             </td>
+                                            <t t-foreach="approve_logs" t-as="log">
+                                                <td style="width: 150px; text-align: center;">
+                                                    <span t-out="log['name']"/>
+                                                </td>
+                                            </t>
                                             <td style="text-align: center">
-                                                <!-- <span t-field="doc.assigned_to"/> -->
+                                                <span t-out="complete_logs['name']"/>
+                                                <span t-if="doc.state in ('purchase') and complete_logs['date']">on <span t-out="complete_logs['date']" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></span>
                                             </td>
                                         </tr>
                                     </table>

@@ -57,3 +57,34 @@ class ApprovalPurchaseOrder(models.Model):
             template.send_mail(self.id, force_send=True)
         else:
             return True
+
+    def _get_approval_log(self):
+        logs = self.approval_log.search([
+            ('from_action', '!=', 'RFQ'),
+            ('to_action', '!=', 'Complete'),
+            ('purchase_id', '=', self.id)])
+        approver = []
+
+        for log in logs:
+            logging = self.env['ics.approval.po.log'].search([
+                ('to_action', '=', log.to_action),
+                ('purchase_id', '=', log.purchase_id.id)],
+                order='datetime DESC', limit=1)
+
+            approver.append({
+                'name': logging.approver_id.name,
+                'signature': logging.approver_id.signature_image
+            })
+
+        return approver
+    
+    def _get_approval_complete(self):
+        logs = self.approval_log.search([
+            ('to_action', '=', 'Complete'),
+            ('purchase_id', '=', self.id)], order='datetime DESC', limit=1)
+        
+        return {
+            'name': logs.approver_id.name,
+            'signature': logs.approver_id.signature_image,
+            'date': logs.datetime
+        }
