@@ -24,6 +24,22 @@
                 <xpath expr="//button[@id='draft_confirm']" position="attributes">
                     <attribute name="invisible">is_approval_active or state != 'draft'</attribute>
                 </xpath>
+                <button name="button_cancel" position="attributes">
+                    <attribute name="invisible">state not in [
+                        'draft',
+                        'to approve',
+                        'pending_release_1',
+                        'pending_release_2',
+                        'pending_release_3',
+                        'waiting_release_1',
+                        'waiting_release_2',
+                        'waiting_release_3',
+                        'waiting_complete',
+                        'sent',
+                        'purchase'
+                    ]</attribute>
+                    <attribute name="group">purchase.group_purchase_manager</attribute>
+                </button>
                 <button name="button_confirm" position="after">
                     <button
                         name="%(ics_approval_po_wizard_action)d"
