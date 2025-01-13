@@ -79,17 +79,12 @@
                             </div>
                             <div class="col">
                                 <span class="fw-semibold">Deliver To</span>
-                                <div t-field="doc.company_id.partner_id" t-options="{'widget': 'contact', 'fields': ['name', 'address'], 'no_marker': True}"/>
+                                <div t-field="doc.picking_type_id.warehouse_id.partner_id" t-options="{'widget': 'contact', 'fields': ['name', 'address'], 'no_marker': True}"/>
                                 <table class="table-borderless w-100">
                                     <tr>
                                         <th class="fw-semibold" style="text-align:left; width: 120px">Payment Terms</th>
                                         <td style="width: 10px">:</td>
                                         <td><span t-field="doc.payment_term_id"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="fw-semibold" style="text-align:left">Schedule Date</th>
-                                        <td>:</td>
-                                        <td><span t-field="doc.date_planned" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -101,7 +96,7 @@
                                     <th name="th_no" class="text-center fw-bold" style="border-right: 1px solid #fff;">No.</th>
                                     <th name="th_product" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff;">Product</th>
                                     <th name="th_description" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Description</th>
-                                    <th name="th_sch_date" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Schedule Date</th>
+                                    <th name="th_sch_date" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Sch. Date</th>
                                     <th name="th_qty" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Qty</th>
                                     <th name="th_uom" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff;">UoM</th>
                                     <th name="th_price" class="text-center text-nowrap fw-bold" style="border-right: 1px solid #fff">Price</th>
