@@ -89,6 +89,8 @@
                                 </table>
                             </div>
                         </div>
+
+                        <br/>
                         
                         <table class="o_has_total_table table table-sm o_main_table table-bordered mt-3">
                             <thead style="display: table-row-group">
@@ -214,7 +216,7 @@
                                             </t>
                                             <td style="text-align: center">
                                                 <span t-out="complete_logs['name']"/>
-                                                <span t-if="doc.state in ('purchase') and complete_logs['date']">on <span t-out="complete_logs['date']" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></span>
+                                                <span t-if="doc.state in ('purchase') and complete_logs['date']"> <br/> on <span t-out="complete_logs['date']" t-options="{'widget': 'date','format': 'MMM-d-yyyy'}"/></span>
                                             </td>
                                         </tr>
                                     </table>
