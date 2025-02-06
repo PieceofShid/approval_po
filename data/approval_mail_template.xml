@@ -28,7 +28,7 @@
                     </p>
                 </div>
             </field>
-            <field name="report_template_ids" eval="[(4, ref('purchase.action_report_purchase_order'))]"/>
+            <field name="report_template_ids" eval="[(4, ref('ics_purchase_order.action_report_purchases_order'))]"/>
         </record>
     </data>
 </odoo>

@@ -82,9 +82,14 @@
                                 <div t-field="doc.picking_type_id.warehouse_id.partner_id" t-options="{'widget': 'contact', 'fields': ['name', 'address'], 'no_marker': True}"/>
                                 <table class="table-borderless w-100">
                                     <tr>
-                                        <th class="fw-semibold" style="text-align:left; width: 120px">Payment Terms</th>
+                                        <th class="fw-semibold" style="text-align:left; width: 130px">Payment Terms</th>
                                         <td style="width: 10px">:</td>
                                         <td><span t-field="doc.payment_term_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="fw-semibold" style="text-align:left;">Budget Allocation</th>
+                                        <td style="width: 10px">:</td>
+                                        <td><span t-field="doc.budget_allocation"/></td>
                                     </tr>
                                 </table>
                             </div>
