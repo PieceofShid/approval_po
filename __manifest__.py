@@ -12,10 +12,10 @@
     'depends': ['base', 'base_automation', 'product', 'stock', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
-        'data/approval_config.xml',
-        'data/approval_mail_template.xml',
         'report/purchase_order_template.xml',
         'report/purchase_order_report.xml',
+        'data/approval_config.xml',
+        'data/approval_mail_template.xml',
         'wizard/approval_wizard.xml',
         'views/approval_config.xml',
         'views/lead_time_view.xml',

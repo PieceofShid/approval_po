@@ -54,9 +54,10 @@ class ApprovalWizard(models.TransientModel):
             'status': self.actions.name
         }
 
-        template = self.env.ref('ics_purchase_order.approval_mail_template')
-        template.sudo().write({'email_to': recipient})
-        template.with_context(ctx).send_mail(self.purchase.id, force_send=True)
+        if len(recipient) > 0:
+            template = self.env.ref('ics_purchase_order.approval_mail_template')
+            template.sudo().write({'email_to': recipient, 'email_cc': 'taufik@ics-seafood.com'})
+            template.sudo().with_context(ctx).send_mail(self.purchase.id, force_send=False)
 
         self._write_approval_log()
 
