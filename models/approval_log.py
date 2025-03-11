@@ -13,3 +13,4 @@ class ApprovalLog(models.Model):
     from_action = fields.Char(string="From")
     to_action   = fields.Char(string="To")
     datetime    = fields.Datetime(string="Date & Time", default=lambda self: fields.Datetime.now())
+    log_active  = fields.Boolean(string="Active", default=True)

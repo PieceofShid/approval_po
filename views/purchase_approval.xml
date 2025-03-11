@@ -116,6 +116,7 @@
                                 <field name="from_action"/>
                                 <field name="to_action"/>
                                 <field name="datetime"/>
+                                <field name="log_active"/>
                             </list>
                         </field>
                     </page>

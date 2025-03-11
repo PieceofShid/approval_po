@@ -1,4 +1,6 @@
-from odoo import models, fields, api
+from odoo import models, fields, _
+from odoo.tools import format_list
+from odoo.exceptions import UserError
 
 class ApprovalPurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -37,6 +39,22 @@ class ApprovalPurchaseOrder(models.Model):
                     order.message_subscribe([order.partner_id.id])
 
         return True
+
+    def button_cancel(self):
+        approval = self.env['ics.approval.po.config'].search([], limit=1)
+        
+        if approval.active == True:
+            logs = self.approval_log.search([
+            ('purchase_id', '=', self.id)])
+
+            logs.write({
+                'log_active': False
+            })
+        
+        purchase_orders_with_invoices = self.filtered(lambda po: any(i.state not in ('cancel', 'draft') for i in po.invoice_ids))
+        if purchase_orders_with_invoices:
+            raise UserError(_("Unable to cancel purchase order(s): %s. You must first cancel their related vendor bills.", format_list(self.env, purchase_orders_with_invoices.mapped('display_name'))))
+        self.write({'state': 'cancel', 'mail_reminder_confirmed': False})
     
     def send_approval_mail(self):
         rules  = self.env['ics.approval.po.rule'].search([
@@ -62,18 +80,15 @@ class ApprovalPurchaseOrder(models.Model):
         logs = self.approval_log.search([
             ('from_action', '!=', 'RFQ'),
             ('to_action', '!=', 'Complete'),
-            ('purchase_id', '=', self.id)])
+            ('log_active', '=', True),
+            ('purchase_id', '=', self.id)],
+            order='datetime DESC', limit=1)
         approver = []
 
         for log in logs:
-            logging = self.env['ics.approval.po.log'].search([
-                ('to_action', '=', log.to_action),
-                ('purchase_id', '=', log.purchase_id.id)],
-                order='datetime DESC', limit=1)
-
             approver.append({
-                'name': logging.approver_id.name,
-                'signature': logging.approver_id.signature_image
+                'name': log.approver_id.name,
+                'signature': log.approver_id.signature_image
             })
 
         return approver
@@ -81,6 +96,7 @@ class ApprovalPurchaseOrder(models.Model):
     def _get_approval_complete(self):
         logs = self.approval_log.search([
             ('to_action', '=', 'Complete'),
+            ('log_active', '=', True),
             ('purchase_id', '=', self.id)], order='datetime DESC', limit=1)
         
         return {
