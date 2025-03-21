@@ -7,6 +7,7 @@ class PurchaseOrder(models.Model):
     
 class ApprovalLog(models.Model):
     _name = 'ics.approval.po.log'
+    _description = 'log approval purchase order'
 
     purchase_id = fields.Many2one('purchase.order', string="Purchase Order", readonly=True, required=True)
     approver_id = fields.Many2one('res.users', string="Approver")
