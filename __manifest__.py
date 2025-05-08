@@ -1,9 +1,9 @@
 {
-    'name': 'ICS Purchase Order',
+    'name': 'Approval Purchase Order',
     'version': '1.0',
     'category': 'Tools',
-    'summary': 'Customization module for ICS Group',
-    'description': "Customization module purchase order for ICS Group. "
+    'summary': 'Customization module approval PO',
+    'description': "Customization module purchase order. "
     "This module contains lead time configuration on product category "
     "and Approval function to secure record creating that can configure",
     'author': 'pieceoftech, ICS',
