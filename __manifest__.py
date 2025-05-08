@@ -6,8 +6,8 @@
     'description': "Customization module purchase order. "
     "This module contains lead time configuration on product category "
     "and Approval function to secure record creating that can configure",
-    'author': 'pieceoftech, ICS',
-    'website': 'https://ics-seafood.com',
+    'author': 'pieceoftech',
+    'website': 'https://pieceoftech.id',
     'license': 'AGPL-3',
     'depends': ['base', 'base_automation', 'product', 'stock', 'purchase'],
     'data': [
